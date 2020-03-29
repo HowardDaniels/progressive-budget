@@ -1,6 +1,6 @@
 const actionBtn = document.getElementById("action-button");
 // new item
-const makeNote = document.getElementById("make-new");
+const makeTransaction = document.getElementById("make-new");
 // clear all items
 const clear = document.getElementById("clear-all");
 // delete an item
@@ -28,11 +28,11 @@ function getResults() {
 function newTodoSnippet(res) {
   for (var i = 0; i < res.length; i++) {
     const data_id = res[i]["_id"];
-    const title = res[i]["transactionName"];
+    const name = res[i]["name"];
     const todoList = document.getElementById("results");
     snippet = `
       <p class="data-entry">
-      <span class="dataTitle" data-id=${data_id}>${title}</span>
+      <span class="dataTitle" data-id=${data_id}>${name}</span>
       <span onClick="delete" class="delete" data-id=${data_id}>x</span>;
       </p>`;
     todoList.insertAdjacentHTML("beforeend", snippet);
@@ -44,18 +44,18 @@ function clearTodos() {
   todoList.innerHTML = "";
 }
 
-function resetTitleAndNote() {
-  const note = document.getElementById("note");
-  note.value = "";
-  const title = document.getElementById("title");
-  title.value = "";
+function resetNameandAmount() {
+  const amount = document.getElementById("amount");
+  amount.value = "";
+  const name = document.getElementById("name");
+  name.value = "";
 }
 
-function updateTitleAndNote(data) {
-  const note = document.getElementById("note");
-  note.value = data.note;
-  const title = document.getElementById("title");
-  title.value = data.title;
+function updateNameAndAmount(data) {
+  const amount = document.getElementById("amount");
+  amount.value = data.amount;
+  const name = document.getElementById("name");
+  name.value = data.name;
 }
 
 getResults();
@@ -93,7 +93,7 @@ results.addEventListener("click", function(e) {
           return;
         }
         element.parentNode.remove();
-        resetTitleAndNote();
+        resetNameandAmount();
         const newButton = `
       <button id='make-new'>Submit</button>`;
         actionBtn.innerHTML = newButton;
@@ -110,7 +110,7 @@ results.addEventListener("click", function(e) {
         return response.json();
       })
       .then(function(data) {
-        updateTitleAndNote(data);
+        updateNameAndAmount(data);
         const newButton = `<button id='updater' data-id=${data_id}>Update</button>`;
         actionBtn.innerHTML = newButton;
       })
@@ -124,8 +124,9 @@ actionBtn.addEventListener("click", function(e) {
   if (e.target.matches("#updater")) {
     updateBtnEl = e.target;
     data_id = updateBtnEl.getAttribute("data-id");
-    const title = document.getElementById("title").value;
-    const note = document.getElementById("note").value;
+    const name = document.getElementById("name").value;
+    const type = document.getElementById("type").value;
+    const amount = document.getElementById("amount").value;
     fetch("/update/" + data_id, {
       method: "post",
       headers: {
@@ -133,8 +134,9 @@ actionBtn.addEventListener("click", function(e) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        title,
-        note
+        name,
+        type,
+        amount
       })
     })
       .then(function(response) {
@@ -142,7 +144,7 @@ actionBtn.addEventListener("click", function(e) {
       })
       .then(function(data) {
         element.innerText = title;
-        resetTitleAndNote();
+        resetNameandAmount();
         const newButton = "<button id='make-new'>Submit</button>";
         actionBtn.innerHTML = newButton;
         status.innerText = "Creating";
@@ -160,13 +162,14 @@ actionBtn.addEventListener("click", function(e) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        title: document.getElementById("title").value,
-        note: document.getElementById("note").value,
+        name: document.getElementById("name").value,
+        type: document.getElementById("type").value,
+        amount: document.getElementById("amount").value,
         created: Date.now()
       })
     })
       .then(res => res.json())
       .then(res => newTodoSnippet([res]));
-    resetTitleAndNote();
+    resetNameandAmount();
   }
 });
