@@ -12,8 +12,8 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-const databaseUrl = process.env.MONGODB_URI || "notetaker";
-const collections = ["notes"];
+const databaseUrl = process.env.MONGODB_URI || "budget";
+const collections = ["transactions"];
 
 const db = mongojs(databaseUrl, collections);
 
@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 app.post("/submit", (req, res) => {
   console.log(req.body);
 
-  db.notes.insert(req.body, (error, saved) => {
+  db.transactions.insert(req.body, (error, saved) => {
     if (error) {
       console.log(error);
     } else {
@@ -38,7 +38,7 @@ app.post("/submit", (req, res) => {
 });
 
 app.get("/all", (req, res) => {
-  db.notes.find({}, (error, found) => {
+  db.transactions.find({}, (error, found) => {
     if (error) {
       console.log(error);
     } else {
@@ -48,7 +48,7 @@ app.get("/all", (req, res) => {
 });
 
 app.get("/find/:id", (req, res) => {
-  db.notes.findOne(
+  db.transactions.findOne(
     {
       _id: mongojs.ObjectId(req.params.id)
     },
@@ -65,7 +65,7 @@ app.get("/find/:id", (req, res) => {
 });
 
 app.post("/update/:id", (req, res) => {
-  db.notes.update(
+  db.transactions.update(
     {
       _id: mongojs.ObjectId(req.params.id)
     },
@@ -89,7 +89,7 @@ app.post("/update/:id", (req, res) => {
 });
 
 app.delete("/delete/:id", (req, res) => {
-  db.notes.remove(
+  db.transactions.remove(
     {
       _id: mongojs.ObjectID(req.params.id)
     },
@@ -106,7 +106,7 @@ app.delete("/delete/:id", (req, res) => {
 });
 
 app.delete("/clearall", (req, res) => {
-  db.notes.remove({}, (error, response) => {
+  db.transactions.remove({}, (error, response) => {
     if (error) {
       console.log(error);
       res.send(error);

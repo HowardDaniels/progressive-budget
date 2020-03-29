@@ -28,7 +28,7 @@ function getResults() {
 function newTodoSnippet(res) {
   for (var i = 0; i < res.length; i++) {
     const data_id = res[i]["_id"];
-    const title = res[i]["title"];
+    const title = res[i]["transactionName"];
     const todoList = document.getElementById("results");
     snippet = `
       <p class="data-entry">

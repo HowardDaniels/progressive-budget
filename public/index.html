@@ -75,21 +75,24 @@
   </head>
 
   <body>
-    <h1>Mongo Note App</h1>
+    <h1>Progressive Budget App</h1>
     <h2>Status: <span id="status" class="primary">Creating</span></h2>
-    <h4>Create a new note by submitting its title and content below</h4>
-    <h4>Click on a note to edit its title or content</h4>
+    <h4>Create a new transaction by submitting its name, type, and amount below</h4>
+    <h4>Click on a transaction to edit its name, type, or amount</h4>
     <div id="user-input">
-      <p>Title</p>
-      <input type="text" id="title" />
+      <p>Name</p>
+      <input type="text" id="name" />
+      <br>
+      <p>Type</p>
+      <!-- <option id="" option: deposit / expense-->
       <br />
-      <p>Note</p>
-      <textarea id="note"></textarea>
+      <p>Amount</p>
+      <input id="amount"></input>
       <div id="buttons">
         <div id="action-button">
           <button id="make-new">Submit</button>
         </div>
-        <button id="clear-all">Delete All Notes</button>
+        <button id="clear-all">Delete All Transactions</button>
       </div>
     </div>
 
