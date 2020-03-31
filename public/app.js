@@ -33,6 +33,7 @@ function newTodoSnippet(res) {
     snippet = `
       <p class="data-entry">
       <span class="dataTitle" data-id=${data_id}>${name}</span>
+      <span class="dataAmount" data-id=${data_id}>${amount}</span>
       <span onClick="delete" class="delete" data-id=${data_id}>x</span>;
       </p>`;
     todoList.insertAdjacentHTML("beforeend", snippet);
