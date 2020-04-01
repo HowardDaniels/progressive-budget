@@ -26,16 +26,44 @@ function getResults() {
 }
 
 function newTodoSnippet(res) {
+  console.log(res);
+  var total = 0;
   for (var i = 0; i < res.length; i++) {
     const data_id = res[i]["_id"];
     const name = res[i]["name"];
+    const type = res[i]["type"];
+    const amount = res[i]["amount"];
+    const balance = document.getElementById("balance");
+
+    if (type === "deposit"){
+      total += parseInt(amount);
+    }
+
+    else if (type === "expense"){
+      total -= parseInt(amount);
+    }
+    console.log(total);
+
     const todoList = document.getElementById("results");
-    snippet = `
+
+    if (type === "deposit"){
+      snippet = `
       <p class="data-entry">
-      <span class="dataTitle" data-id=${data_id}>${name}</span>
-      <span class="dataAmount" data-id=${data_id}>${amount}</span>
+      <span class="dataTitle" data-id=${data_id}>${name}: </span>
+      <span class="dataAmount" data-id=${data_id} style="color: green;">+$${amount}</span>
       <span onClick="delete" class="delete" data-id=${data_id}>x</span>;
       </p>`;
+    }
+
+    else if (type === "expense"){
+    snippet = `
+      <p class="data-entry">
+      <span class="dataTitle" data-id=${data_id}>${name}: </span>
+      <span class="dataAmount" data-id=${data_id} style="color: red;">-$${amount}</span>
+      <span onClick="delete" class="delete" data-id=${data_id}>x</span>;
+      </p>`;
+    }
+    balance.textContent = `Balance: $${total} `;
     todoList.insertAdjacentHTML("beforeend", snippet);
   }
 }
