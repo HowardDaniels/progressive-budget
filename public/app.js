@@ -36,11 +36,11 @@ function newTodoSnippet(res) {
     const balance = document.getElementById("balance");
 
     if (type === "deposit"){
-      total += parseInt(amount);
+      total += Number(amount);
     }
 
     else if (type === "expense"){
-      total -= parseInt(amount);
+      total -= Number(amount);
     }
     console.log(total);
 
