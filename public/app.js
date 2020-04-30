@@ -28,6 +28,7 @@ function getResults() {
 function newTodoSnippet(res) {
   console.log(res);
   var total = 0;
+  console.log(res.length);
   for (var i = 0; i < res.length; i++) {
     const data_id = res[i]["_id"];
     const name = res[i]["name"];
@@ -36,11 +37,11 @@ function newTodoSnippet(res) {
     const balance = document.getElementById("balance");
 
     if (type === "deposit"){
-      total += Number(amount);
+      total += parseFloat(amount);
     }
 
     else if (type === "expense"){
-      total -= Number(amount);
+      total -= parseFloat(amount);
     }
     console.log(total);
 
@@ -151,6 +152,7 @@ results.addEventListener("click", function(e) {
 
 actionBtn.addEventListener("click", function(e) {
   if (e.target.matches("#updater")) {
+    console.log("A");
     updateBtnEl = e.target;
     data_id = updateBtnEl.getAttribute("data-id");
     const name = document.getElementById("name").value;
@@ -182,6 +184,7 @@ actionBtn.addEventListener("click", function(e) {
         console.log("Fetch Error :-S", err);
       });
   } else if (e.target.matches("#make-new")) {
+    console.log("B");
     element = e.target;
     data_id = element.getAttribute("data-id");
     fetch("/submit", {
